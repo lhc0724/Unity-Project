@@ -24,7 +24,7 @@ Project-G/[Mm]emoryCaptures/
 Project-G/[Aa]ssets/Plugins/Editor/JetBrains*
 
 # Visual Studio cache directory
-.vs/
+Project-G/.vscode/
 
 # Gradle cache directory
 .gradle/
