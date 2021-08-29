@@ -4,10 +4,12 @@ using UnityEngine;
 
 public class Plyer_move : MonoBehaviour
 {
-    public float movePower = 1.0f;
-    public float jumpPower = 1.0f;
+    public float movePower = 4.0f;
+    public float jumpPower = 3.0f;
 
     Rigidbody2D rigid;
+    new SpriteRenderer renderer;
+    Animator anim;
 
     Vector3 movement;
     bool isJumping = false;
@@ -16,7 +18,10 @@ public class Plyer_move : MonoBehaviour
     void Start()
     {
         rigid = gameObject.GetComponent<Rigidbody2D> ();
-    }   
+        rigid.position = Vector2.zero;
+        renderer = gameObject.GetComponentInChildren<SpriteRenderer>();
+        anim = gameObject.GetComponentInChildren<Animator>();
+    }
 
     // Update is called once per frame
     void Update()
@@ -24,23 +29,32 @@ public class Plyer_move : MonoBehaviour
         if (Input.GetButtonDown("Jump")) {
             isJumping = true;
         }
-    }
 
-    void FixedUpdate()
-    {
         move();
         Jump();
     }
 
+    void FixedUpdate()
+    {
+    }
+
     void move() {
         Vector3 moveVelocity = Vector3.zero;
+        float f_movechk = Input.GetAxisRaw("Horizontal");
 
-        if(Input.GetAxisRaw("Horizontal") < 0)  {
+        if(f_movechk < 0)  {
             moveVelocity = Vector3.left;
-        } else if (Input.GetAxisRaw("Horizontal") > 0) {
+            renderer.flipX = true; //left filp
+        } else if (f_movechk > 0) {
             moveVelocity = Vector3.right;
+            renderer.flipX = false; //right filp
         }
 
+        if (f_movechk != 0) {
+            anim.SetInteger("move", 1);
+        }else {
+            anim.SetInteger("move", 0);
+        }
         transform.position += moveVelocity * movePower * Time.deltaTime;
     }
 
