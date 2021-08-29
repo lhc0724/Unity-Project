@@ -5,7 +5,7 @@ using UnityEngine;
 public class Plyer_move : MonoBehaviour
 {
     public float movePower = 4.0f;
-    public float jumpPower = 3.0f;
+    public float jumpPower = 5.5f;
 
     Rigidbody2D rigid;
     new SpriteRenderer renderer;
@@ -28,6 +28,7 @@ public class Plyer_move : MonoBehaviour
     {
         if (Input.GetButtonDown("Jump")) {
             isJumping = true;
+            anim.SetTrigger("do_jump");
         }
 
         move();
@@ -70,5 +71,33 @@ public class Plyer_move : MonoBehaviour
         rigid.AddForce (jumpVelocity, ForceMode2D.Impulse);
 
         isJumping = false;
+    }
+
+    void OnTriggerEnter2D(Collider2D other)
+    {
+        //Debug.Log("Attach : " + other.gameObject.layer); 
+
+        switch (other.gameObject.layer) {
+            case 3:
+                anim.SetBool("jump", false);
+                break;
+
+            default:
+                break;
+        }
+
+    }
+
+    void OnTriggerExit2D(Collider2D other)
+    {
+        //Debug.Log("Detach : " + other.gameObject.layer);
+        switch (other.gameObject.layer) {
+            case 3:
+                anim.SetBool("jump", true);
+                break;
+
+            default:
+                break;
+        }
     }
 }
