@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Plyer_move : MonoBehaviour
+public class Player_move : MonoBehaviour
 {
     public float movePower = 4.0f;
     public float jumpPower = 5.5f;
@@ -12,13 +12,14 @@ public class Plyer_move : MonoBehaviour
     Animator anim;
 
     Vector3 movement;
-    bool isJumping = false;
+    bool jump = false;
 
     // Start is called before the first frame update
     void Start()
     {
         rigid = gameObject.GetComponent<Rigidbody2D> ();
-        rigid.position = Vector2.zero;
+        //rigid.position = Vector2.zero;
+
         renderer = gameObject.GetComponentInChildren<SpriteRenderer>();
         anim = gameObject.GetComponentInChildren<Animator>();
     }
@@ -26,9 +27,9 @@ public class Plyer_move : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (Input.GetButtonDown("Jump")) {
-            isJumping = true;
+        if (Input.GetKeyDown(KeyCode.C) && !anim.GetBool("jump")) {
             anim.SetTrigger("do_jump");
+            jump = true;
         }
 
         move();
@@ -61,7 +62,7 @@ public class Plyer_move : MonoBehaviour
 
     void Jump()
     {
-        if(!isJumping) {
+        if(!jump) {
             return ;
         }
 
@@ -70,7 +71,7 @@ public class Plyer_move : MonoBehaviour
         Vector2 jumpVelocity = new Vector2 (0, jumpPower);
         rigid.AddForce (jumpVelocity, ForceMode2D.Impulse);
 
-        isJumping = false;
+        jump = false;
     }
 
     void OnTriggerEnter2D(Collider2D other)
