@@ -87,6 +87,10 @@ public class Player_move : MonoBehaviour
                 break;
         }
 
+        if(other.gameObject.tag == "Stage_End") {
+            Map_Triggers.StageEnd();
+        }
+
     }
 
     void OnTriggerExit2D(Collider2D other)

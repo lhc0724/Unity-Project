@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class Map_Triggers : MonoBehaviour
 {
@@ -9,7 +10,7 @@ public class Map_Triggers : MonoBehaviour
     Vector3 start_pos;
     Vector3 end_pos;
     Quaternion start_rot;
-    bool flag_start;
+    static bool stage_end = false;
 
     void Awake()
     {
@@ -44,5 +45,28 @@ public class Map_Triggers : MonoBehaviour
         Instantiate(Player, start_pos, start_rot);
 
         std_cam.SetActive(true);
+    }
+
+    public static void StageEnd() 
+    {
+        Time.timeScale = 0;
+        stage_end = true;
+    }
+
+    void OnGUI()
+    {
+        if (stage_end) {
+            GUILayout.BeginArea(new Rect((Screen.width/2)-75, Screen.height/2, 150, 200));
+
+            GUILayout.Label("스테이지 클리어!");
+
+            if(GUILayout.Button("처음으로")) {
+                SceneManager.LoadScene("testgame", LoadSceneMode.Single);
+                stage_end = false;
+            }
+
+            GUILayout.EndVertical();
+            GUILayout.EndArea();
+        }
     }
 }
