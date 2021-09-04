@@ -6,6 +6,7 @@ using UnityEngine.SceneManagement;
 public class Map_Triggers : MonoBehaviour
 {
     public GameObject Player;
+    public GameObject Canvas;
 
     Vector3 start_pos;
     Vector3 end_pos;
@@ -43,6 +44,7 @@ public class Map_Triggers : MonoBehaviour
 
         //create player character
         Instantiate(Player, start_pos, start_rot);
+        Instantiate(Canvas, new Vector3(0,0,0), new Quaternion(0,0,0,0));
 
         std_cam.SetActive(true);
     }
