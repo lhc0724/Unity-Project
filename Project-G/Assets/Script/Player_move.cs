@@ -32,6 +32,12 @@ public class Player_move : MonoBehaviour
             jump = true;
         }
 
+        //Debug.Log(rigid.position);
+
+        if(rigid.position.y <= -8.0f) {
+            GameObject.Find("SysManager").GetComponent<Map_Triggers>().init_obj_position("Player");
+        }
+
         move();
         Jump();
     }
