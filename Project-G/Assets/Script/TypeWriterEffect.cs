@@ -91,12 +91,12 @@ public class TypeWriterEffect : MonoBehaviour
                 yield return new WaitForSeconds(t_Dly);
             }
             //if exit then print screen all text.
-            Debug.Log("Typing 종료");
+            //Debug.Log("Typing 종료");
             this.GetComponent<Text>().text = _fullText[cnt];
             yield return new WaitForSeconds(t_SkippedDly);
 
             //exit after skip delay time;
-            Debug.Log("Enter 대기");
+            //Debug.Log("Enter 대기");
             b_txtFull = true;
         }
     }
