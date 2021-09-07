@@ -6,7 +6,7 @@ using UnityEngine.SceneManagement;
 public class Map_Triggers : MonoBehaviour
 {
     public GameObject Player;
-    public GameObject Canvas;
+    //public GameObject Canvas;
 
     Vector3 start_pos;
     Vector3 end_pos;
@@ -25,7 +25,6 @@ public class Map_Triggers : MonoBehaviour
         start_pos = GameObject.FindGameObjectWithTag("Start").transform.position;
         start_rot = GameObject.FindGameObjectWithTag("Start").transform.rotation;
 
-
         //end position initialize
         end_pos = GameObject.FindGameObjectWithTag("Stage_End").transform.position;
 
@@ -38,13 +37,10 @@ public class Map_Triggers : MonoBehaviour
         GameObject std_cam = GameObject.FindGameObjectWithTag("MainCamera");
         std_cam.SetActive(false);
 
-        start_pos = new Vector3(start_pos.x, start_pos.y+1f, start_pos.z);
-
-        //Debug.Log("postion" + start_pos);
-
+        start_pos = new Vector3(start_pos.x, start_pos.y + 1f, start_pos.z);
+        
         //create player character
         Instantiate(Player, start_pos, start_rot);
-        Instantiate(Canvas, new Vector3(0,0,0), new Quaternion(0,0,0,0));
 
         std_cam.SetActive(true);
     }
@@ -53,6 +49,20 @@ public class Map_Triggers : MonoBehaviour
     {
         Time.timeScale = 0;
         stage_end = true;
+    }
+
+    public void init_obj_position(string tag_name)
+    {
+        //only input tag_name, init postion to player start positon.
+        GameObject tmpobj = GameObject.FindWithTag(tag_name);
+        tmpobj.transform.position = start_pos;
+    }   
+
+    public void init_obj_position(string tag_name, Vector3 init_pos) 
+    {
+        //find object matching the tag_name, and init postion to the value of init_pos argument.
+        GameObject tmpobj = GameObject.FindWithTag(tag_name);
+        tmpobj.transform.position = init_pos;
     }
 
     void OnGUI()
