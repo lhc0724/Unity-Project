@@ -85,6 +85,7 @@ public class Player_move : MonoBehaviour
         //Debug.Log("Attach : " + other.gameObject.layer); 
 
         switch (other.gameObject.layer) {
+            //case 0:
             case 3:
                 anim.SetBool("jump", false);
                 break;
