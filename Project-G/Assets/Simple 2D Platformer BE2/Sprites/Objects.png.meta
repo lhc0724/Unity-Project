@@ -8,6 +8,12 @@ TextureImporter:
   - first:
       213: -3708508325519384304
     second: Finish
+  - first:
+      213: 7642980859614939925
+    second: Objects_0
+  - first:
+      213: -174804484191063705
+    second: Objects_1
   externalObjects: {}
   serializedVersion: 11
   mipmaps:
@@ -29,6 +35,7 @@ TextureImporter:
   isReadable: 0
   streamingMipmaps: 0
   streamingMipmapsPriority: 0
+  vTOnly: 0
   grayScaleToAlpha: 0
   generateCubemap: 6
   cubemapConvolution: 0
@@ -38,11 +45,11 @@ TextureImporter:
   textureSettings:
     serializedVersion: 2
     filterMode: 0
-    aniso: -1
-    mipBias: -100
+    aniso: 1
+    mipBias: 0
     wrapU: 1
     wrapV: 1
-    wrapW: -1
+    wrapW: 0
   nPOTScale: 0
   lightmap: 0
   compressionQuality: 50
@@ -60,9 +67,12 @@ TextureImporter:
   textureType: 8
   textureShape: 1
   singleChannelComponent: 0
+  flipbookRows: 1
+  flipbookColumns: 1
   maxTextureSizeSet: 0
   compressionQualitySet: 0
   textureFormatSet: 0
+  ignorePngGamma: 0
   applyGammaDecoding: 0
   platformSettings:
   - serializedVersion: 3
@@ -117,36 +127,33 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: Spike
+      name: Objects_0
       rect:
         serializedVersion: 2
         x: 0
         y: 0
         width: 16
-        height: 16
+        height: 8
       alignment: 0
       pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
-      physicsShape:
-      - - {x: 0, y: -1}
-        - {x: -8, y: -8}
-        - {x: 8, y: -8}
+      physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: b2434d87a08d82360800000000000000
-      internalID: 7145198348311737387
+      spriteID: 51b457af892511a60800000000000000
+      internalID: 7642980859614939925
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Finish
+      name: Objects_1
       rect:
         serializedVersion: 2
-        x: 17
+        x: 20
         y: 0
-        width: 16
+        width: 12
         height: 16
       alignment: 0
       pivot: {x: 0.5, y: 0.5}
@@ -155,8 +162,8 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 011a6d2935bb88cc0800000000000000
-      internalID: -3708508325519384304
+      spriteID: 76175ae6f38f29df0800000000000000
+      internalID: -174804484191063705
       vertices: []
       indices: 
       edges: []
