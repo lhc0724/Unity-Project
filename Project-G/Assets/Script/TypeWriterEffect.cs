@@ -2,6 +2,9 @@
 using System.Collections;
 using UnityEngine.UI;
 
+using System.Xml;
+using System.IO;
+
 public class TypeWriterEffect : MonoBehaviour
 {
     /* --- temporary variables --- */
@@ -18,10 +21,19 @@ public class TypeWriterEffect : MonoBehaviour
     public bool b_txtExit;
     public bool b_txtFull;
     public bool b_txtCut;
+    
+    [SerializeField]
+    private TextAsset xmlTxt;
+    private XmlDocument xmlDoc;
+    private string _path;
 
     //start with typing.
     void Start()
     {
+        _path = Application.dataPath + "/Xml";  //load XML directory path
+        LoadXml();
+        //Debug.Log(_path);
+
         Get_Typing(print_count, str_txts);
     }
 
@@ -99,5 +111,24 @@ public class TypeWriterEffect : MonoBehaviour
             //Debug.Log("Enter 대기");
             b_txtFull = true;
         }
+    }
+
+    private void LoadXml()
+    {
+        xmlDoc = new XmlDocument();
+        xmlDoc.Load(_path+"/Text.xml");
+
+        string xmltxt;
+
+        XmlNodeList nodes = xmlDoc.SelectNodes("TextGroup/Tutorial");
+        foreach(XmlNode tmp in nodes) {
+            Debug.Log("index : "+tmp.SelectSingleNode("Index").InnerText);
+
+            xmltxt = tmp.SelectSingleNode("Text").InnerText;
+            xmltxt = xmltxt.Replace("\\r", "\r");
+            xmltxt = xmltxt.Replace("\\n", "\n");
+            Debug.Log(xmltxt);
+        }
+        //Debug.Log(xmlDoc);
     }
 }
