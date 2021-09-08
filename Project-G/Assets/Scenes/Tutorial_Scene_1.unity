@@ -192,7 +192,7 @@ SpriteRenderer:
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 939237997
-  m_SortingLayer: 1
+  m_SortingLayer: -1
   m_SortingOrder: 0
   m_Sprite: {fileID: -174804484191063705, guid: f73dfe034c22cfc41bd7e8799020a5ac, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
@@ -213,12 +213,16 @@ PrefabInstance:
     m_TransformParent: {fileID: 0}
     m_Modifications:
     - target: {fileID: 9676819209638570, guid: 9f13eee50d8e7034d92e54e53c68fc8e, type: 3}
-      propertyPath: str_txts.Array.data[0]
+      propertyPath: msg
       value: 
+      objectReference: {fileID: 1716276289}
+    - target: {fileID: 9676819209638570, guid: 9f13eee50d8e7034d92e54e53c68fc8e, type: 3}
+      propertyPath: str_txts.Array.data[0]
+      value: "\uC548\uB155\uD558\uC138\uC694"
       objectReference: {fileID: 0}
     - target: {fileID: 9676819209638570, guid: 9f13eee50d8e7034d92e54e53c68fc8e, type: 3}
       propertyPath: str_txts.Array.data[1]
-      value: 
+      value: "\uAC1C\uD589\uD14C\uC2A4\uD2B8"
       objectReference: {fileID: 0}
     - target: {fileID: 9676819999838758, guid: 9f13eee50d8e7034d92e54e53c68fc8e, type: 3}
       propertyPath: m_Pivot.x
@@ -423,6 +427,17 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1716276289 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 9676819209638565, guid: 9f13eee50d8e7034d92e54e53c68fc8e, type: 3}
+  m_PrefabInstance: {fileID: 1023319814}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5f7201a12d95ffc409449d95f23cf332, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &1785411306
 GameObject:
   m_ObjectHideFlags: 0
