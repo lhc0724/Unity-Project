@@ -1,8 +1,7 @@
 <?xml version="1.0" encoding="utf-8" ?>
 
 <TextGroup>
-    <Tutorial>
-        <Index>1</Index>
+    <Row tag="tutorial" index="1">
         <Text>Xml 파싱 테스트 입니다.\r\n개행문자 적용 테스트 입니다.</Text>
-    </Tutorial>
+    </Row>
 </TextGroup>

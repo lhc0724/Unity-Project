@@ -1,5 +1,6 @@
 ﻿using UnityEngine;
 using System.Collections;
+using System.Collections.Generic;
 using UnityEngine.UI;
 
 using System.Xml;
@@ -119,16 +120,24 @@ public class TypeWriterEffect : MonoBehaviour
         xmlDoc.Load(_path+"/Text.xml");
 
         string xmltxt;
+        List<string> xmlList = new List<string> ();
 
-        XmlNodeList nodes = xmlDoc.SelectNodes("TextGroup/Tutorial");
+        XmlNodeList nodes = xmlDoc.SelectNodes("TextGroup/Row");
         foreach(XmlNode tmp in nodes) {
-            Debug.Log("index : "+tmp.SelectSingleNode("Index").InnerText);
+            //Debug.Log("index : "+tmp.SelectSingleNode("Text").Value);
 
             xmltxt = tmp.SelectSingleNode("Text").InnerText;
             xmltxt = xmltxt.Replace("\\r", "\r");
             xmltxt = xmltxt.Replace("\\n", "\n");
-            Debug.Log(xmltxt);
+
+            xmlList.Add(tmp.Attributes["tag"].Value);
+            xmlList.Add(tmp.Attributes["index"].Value);
+            xmlList.Add(xmltxt);
+            //Debug.Log(xmltxt);
         }
-        //Debug.Log(xmlDoc);
+
+        for (int i = 0; i < xmlList.Count; i++) {
+            Debug.Log(xmlList[i]);
+        }
     }
 }
