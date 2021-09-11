@@ -6,6 +6,8 @@ using UnityEngine.UI;
 using System.Xml;
 using System.IO;
 
+using XmlManager;
+
 public class TypeWriterEffect : MonoBehaviour
 {
     /* --- temporary variables --- */
@@ -23,8 +25,10 @@ public class TypeWriterEffect : MonoBehaviour
     public bool b_txtFull;
     public bool b_txtCut;
     
+    List<DialogParser> xmlDialog = new List<DialogParser>(); 
+    PathManager dialogPath;
+
     [SerializeField]
-    private TextAsset xmlTxt;
     private XmlDocument xmlDoc;
     private string _path;
 
@@ -32,8 +36,8 @@ public class TypeWriterEffect : MonoBehaviour
     void Start()
     {
         _path = Application.dataPath + "/Xml";  //load XML directory path
+        dialogPath = new PathManager(Application.dataPath + "/Xml/Text.xml");
         LoadXml();
-        //Debug.Log(_path);
 
         Get_Typing(print_count, str_txts);
     }
@@ -122,6 +126,8 @@ public class TypeWriterEffect : MonoBehaviour
         string xmltxt;
         List<string> xmlList = new List<string> ();
 
+        DialogParser tmpData = new DialogParser();
+
         XmlNodeList nodes = xmlDoc.SelectNodes("TextGroup/Row");
         foreach(XmlNode tmp in nodes) {
             //Debug.Log("index : "+tmp.SelectSingleNode("Text").Value);
@@ -133,6 +139,8 @@ public class TypeWriterEffect : MonoBehaviour
             xmlList.Add(tmp.Attributes["tag"].Value);
             xmlList.Add(tmp.Attributes["index"].Value);
             xmlList.Add(xmltxt);
+
+            tmpData.setDialogData(tmp.Attributes["tag"].Value, tmp.Attributes["index"].Value, xmltxt);
             //Debug.Log(xmltxt);
         }
 
