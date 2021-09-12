@@ -5,6 +5,7 @@ using UnityEngine.UI;
 
 using System.Xml;
 using System.IO;
+using System.Threading;
 
 using XmlManager;
 
@@ -37,7 +38,10 @@ public class TypeWriterEffect : MonoBehaviour
     {
         _path = Application.dataPath + "/Xml";  //load XML directory path
         dialogPath = new PathManager(Application.dataPath + "/Xml/Text.xml");
-        LoadXml();
+
+        Thread thread = new Thread(LoadXml);
+        thread.Start();
+        //LoadXml();
 
         Get_Typing(print_count, str_txts);
     }
@@ -141,11 +145,13 @@ public class TypeWriterEffect : MonoBehaviour
             xmlList.Add(xmltxt);
 
             tmpData.setDialogData(tmp.Attributes["tag"].Value, tmp.Attributes["index"].Value, xmltxt);
-            //Debug.Log(xmltxt);
+            xmlDialog.Add(tmpData);
         }
 
-        for (int i = 0; i < xmlList.Count; i++) {
-            Debug.Log(xmlList[i]);
+        for (int i = 0; i < xmlDialog.Count; i++) {
+            Debug.Log("Tag   : " + xmlDialog[i].getTag());
+            Debug.Log("Index : " + xmlDialog[i].getIndex().ToString());
+            Debug.Log("Text  : " + xmlDialog[i].getText());
         }
     }
 }

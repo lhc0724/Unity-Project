@@ -1,5 +1,8 @@
 using System;
+using System.Xml;
+using System.IO;
 using System.Collections.Generic;
+
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
@@ -15,6 +18,19 @@ namespace XmlManager
         {
             get => _path;
             set => _path = value;
+        }
+
+    }
+
+    public class ReadXml
+    {
+        private XmlDocument xmlDoc;
+        private string xmlName;
+
+        public ReadXml(string xmlFileName)
+        {
+            this.xmlDoc = new XmlDocument();
+            this.xmlName = "/" + xmlFileName;
         }
 
     }
@@ -37,6 +53,21 @@ namespace XmlManager
             this.tag = tag;
             this.textIndex = Int32.Parse(index);
             this.text = text;
+        }
+
+        public string getTag()
+        {
+            return tag;
+        }
+
+        public int getIndex()
+        {
+            return textIndex;
+        }
+
+        public string getText()
+        {
+            return text;
         }
     }
 }
