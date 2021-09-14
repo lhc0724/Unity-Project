@@ -8,9 +8,12 @@ using UnityEngine.SceneManagement;
 
 namespace XmlManager
 {
+
     public class PathManager
     {
         private string _path;
+        public XmlReader xmlDocs;
+        private string xmlName;
 
         public PathManager(string path) => xmlPath = path;
 
@@ -20,20 +23,55 @@ namespace XmlManager
             set => _path = value;
         }
 
-    }
-
-    public class ReadXml
-    {
-        private XmlDocument xmlDoc;
-        private string xmlName;
-
-        public ReadXml(string xmlFileName)
+        public void OpenXml(string fileName)
         {
-            this.xmlDoc = new XmlDocument();
-            this.xmlName = "/" + xmlFileName;
+            this.xmlName = "/"+fileName;
+            //this.xmlDocs = new XmlDocument();
+            xmlDocs = XmlReader.Create(_path + xmlName);
         }
 
     }
+
+    public class DataManager : PathManager
+    {
+        //dialog, charactor data, mob data, etc .. management class
+        private string xmlText;
+        private string xmlTag;
+        private int xmlIndex;
+        public enum dbType { Dialog, Charator, Mob }
+
+        public DataManager(string filePath) : base(filePath)
+        {
+            this.xmlTag = string.Empty;
+            this.xmlIndex = 0;
+            this.xmlText = string.Empty;
+        }
+
+        public void readXml(dbType type)
+        {
+            switch(type) {
+                case dbType.Dialog:
+                    OpenXml("Text");
+                break;
+                default:
+                    //another case is not execute. 
+                    //dev not yet
+                break;
+            }
+
+            while(xmlDocs.Read()) {
+                if(xmlDocs.IsStartElement("Row")) {
+                    xmlTag = xmlDocs.GetAttribute("tag");
+                    xmlIndex = Int32.Parse(xmlDocs.GetAttribute("index"));
+
+                    xmlDocs.Read();
+
+                    xmlText = xmlDocs.ReadElementContentAsString("Text", "");
+                }
+            }
+
+        }
+    }   
 
     public class DialogParser
     {

@@ -37,7 +37,7 @@ public class TypeWriterEffect : MonoBehaviour
     void Start()
     {
         _path = Application.dataPath + "/Xml";  //load XML directory path
-        dialogPath = new PathManager(Application.dataPath + "/Xml/Text.xml");
+        dialogPath = new PathManager(Application.dataPath + "/Xml");
 
         Thread thread = new Thread(LoadXml);
         thread.Start();
