@@ -61,6 +61,9 @@ namespace dbManager
                     xmlDocs.ReadToDescendant("Text");
                     readData.Text = xmlDocs.ReadElementContentAsString();
 
+                    readData.Text = readData.Text.Replace("\\r", "\r");
+                    readData.Text = readData.Text.Replace("\\n", "\n");
+
                     if (readData.Tag != sceneName) {
                         break;
                     } else {

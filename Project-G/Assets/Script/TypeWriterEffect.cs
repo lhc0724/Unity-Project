@@ -49,10 +49,10 @@ public class TypeWriterEffect : MonoBehaviour
         }
 
         /*--- tess code ---*/
-        // foreach(DataManager item in xmlDataList) {
-        //     Debug.Log("Tag : " + item.Tag + " index : " + item.Index);
-        //     Debug.Log(item.Text);
-        // }
+        foreach(DataManager item in xmlDataList) {
+            Debug.Log("Tag : " + item.Tag + " index : " + item.Index);
+            Debug.Log(item.Text);
+        }
         /*--- tess code ---*/
 
         // _path = Application.dataPath + "/Xml";  //load XML directory path
@@ -157,6 +157,7 @@ public class TypeWriterEffect : MonoBehaviour
             //Debug.Log("index : "+tmp.SelectSingleNode("Text").Value);
 
             xmltxt = tmp.SelectSingleNode("Text").InnerText;
+            xmltxt = xmltxt.Replace("\\r", "\r");
             xmltxt = xmltxt.Replace("\\r", "\r");
             xmltxt = xmltxt.Replace("\\n", "\n");
 
