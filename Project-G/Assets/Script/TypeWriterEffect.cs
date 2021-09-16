@@ -2,12 +2,13 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine.UI;
+using UnityEngine.SceneManagement;
 
 using System.Xml;
 using System.IO;
 using System.Threading;
 
-using XmlManager;
+using dbManager;
 
 public class TypeWriterEffect : MonoBehaviour
 {
@@ -27,7 +28,9 @@ public class TypeWriterEffect : MonoBehaviour
     public bool b_txtCut;
     
     List<DialogParser> xmlDialog = new List<DialogParser>(); 
-    PathManager dialogPath;
+    List<DataManager> xmlDataList = new List<DataManager> ();
+
+    XmlManager xmlParser;
 
     [SerializeField]
     private XmlDocument xmlDoc;
@@ -36,13 +39,30 @@ public class TypeWriterEffect : MonoBehaviour
     //start with typing.
     void Start()
     {
-        _path = Application.dataPath + "/Xml";  //load XML directory path
-        dialogPath = new PathManager(Application.dataPath + "/Xml");
+        xmlParser = new XmlManager(Application.dataPath + "/Xml");
+        xmlParser.xmlName = "/Text.xml";
 
-        Thread thread = new Thread(LoadXml);
-        thread.Start();
+        xmlDataList = xmlParser.LoadData(SceneManager.GetActiveScene().name);
+
+        if(xmlDataList == null) {
+            Debug.Log("xml read error");
+        }
+
+        /*--- tess code ---*/
+        // foreach(DataManager item in xmlDataList) {
+        //     Debug.Log("Tag : " + item.Tag + " index : " + item.Index);
+        //     Debug.Log(item.Text);
+        // }
+        /*--- tess code ---*/
+
+        // _path = Application.dataPath + "/Xml";  //load XML directory path
+        // dialogPath = new PathManager(Application.dataPath + "/Xml");
+
+        // Thread thread = new Thread(LoadXml);
+        // thread.Start();
         //LoadXml();
 
+        //Debug.Log(SceneManager.GetActiveScene().name);    //현재 활성화된 씬정보 테스팅 코드
         Get_Typing(print_count, str_txts);
     }
 
