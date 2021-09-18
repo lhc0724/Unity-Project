@@ -11,11 +11,13 @@ public class DialogManager : MonoBehaviour
     // Start is called before the first frame update
     List<DataManager> DialogList = new List<DataManager> ();
     XmlManager xmlParser;
+    private string _sceneName;
     
     void Start()
     {
         xmlParser = new XmlManager(Application.dataPath + "/Xml");
-        new Thread (() => getCurrSceneDialog(SceneManager.GetActiveScene().name)).Start();
+        _sceneName = SceneManager.GetActiveScene().name;
+        new Thread (() => getCurrSceneDialog()).Start();
     }
 
     // Update is called once per frame
@@ -24,9 +26,9 @@ public class DialogManager : MonoBehaviour
         
     }
 
-    void getCurrSceneDialog(string SceneName)
+    void getCurrSceneDialog()
     {
         xmlParser.xmlName = "/Text.xml";
-        DialogList = xmlParser.LoadData(SceneName);
+        DialogList = xmlParser.LoadData(_sceneName);
     }
 }
