@@ -15,65 +15,90 @@ public class TypeWriterEffect : MonoBehaviour
     /* --- temporary variables --- */
     public float t_Dly;         //time val, delay time
     public float t_SkippedDly;  //time val, skipped delay time
-    public int cnt = 0;             //universal count variable
 
     /* --- typing effect variables --- */
-    public string[] str_txts;  //string type array variable, all texts stack
-    public int print_count;    //text index number variable
-    string str_currtxt;        //current effectly text
+    private string _currShowString;        //current effectly text
+    private List<string> _textBuffer = new List<string>();
 
     /* --- typing check variables --- */
     public bool b_txtExit;
     public bool b_txtFull;
     public bool b_txtCut;
+
+    private bool _isPrinting;
+
+    DialogManager dialogData;
     
-    List<DialogParser> xmlDialog = new List<DialogParser>(); 
-    List<DataManager> xmlDataList = new List<DataManager> ();
-
-    XmlManager xmlParser;
-
-    [SerializeField]
-    private XmlDocument xmlDoc;
-    private string _path;
 
     //start with typing.
     void Start()
     {
-        xmlParser = new XmlManager(Application.dataPath + "/Xml");
-        xmlParser.xmlName = "/Text.xml";
+        //variable init
+        _isPrinting = false;
+        b_txtExit = false;
 
-        xmlDataList = xmlParser.LoadData(SceneManager.GetActiveScene().name);
-
-        if(xmlDataList == null) {
-            Debug.Log("xml read error");
-        }
-
-        /*--- tess code ---*/
-        foreach(DataManager item in xmlDataList) {
-            Debug.Log("Tag : " + item.Tag + " index : " + item.Index);
-            Debug.Log(item.Text);
-        }
-        /*--- tess code ---*/
-
-        // _path = Application.dataPath + "/Xml";  //load XML directory path
-        // dialogPath = new PathManager(Application.dataPath + "/Xml");
-
-        // Thread thread = new Thread(LoadXml);
-        // thread.Start();
-        //LoadXml();
-
-        //Debug.Log(SceneManager.GetActiveScene().name);    //현재 활성화된 씬정보 테스팅 코드
-        Get_Typing(print_count, str_txts);
+        dialogData = GameObject.Find("SysManager").GetComponent<DialogManager>();
     }
-
 
     //exit after print screen all texts.
     void Update()
     {
-        if (b_txtExit == true) {
-            gameObject.SetActive(false);
+        if(!b_txtExit) {
+            if (dialogData.isThdExited) {
+                dialogData.thd.Join();
+            } else if (!dialogData.isThdExited && !_isPrinting) {
+                //Get_Typing(print_count, str_txts);
+                print_Text(dialogData.DialogList, 1);
+            }
+        } else {
+            //gameObject.SetActive(false);
+        }
+
+        if(Input.GetKeyDown("space")) {
+            End_Typing();
         }
         
+    }
+
+    public void print_Text(List<DataManager> datas, int textIndex)
+    {
+        _isPrinting = true;
+        foreach (DataManager tmp in datas) {
+            if(tmp.Index == textIndex) {
+                _textBuffer.Add(tmp.Text);
+            }
+        }   
+
+        //Debug.Log($"{textBuffer[0]}");
+        StartCoroutine(typingAction(_textBuffer));
+    }
+
+    IEnumerator typingAction(List<string> texts)
+    {
+        if(b_txtExit) {
+            StopCoroutine("typingAction");
+            yield return null;
+        } else {
+            foreach(string buffer in texts) {
+                _currShowString = "";
+
+                for (int i = 0; i < buffer.Length; i++) {
+                    if (b_txtCut == true) {
+                        this.GetComponent<Text>().text = buffer;
+                        break;
+                    }
+                    _currShowString = buffer.Substring(0, i + 1);
+                    this.GetComponent<Text>().text = _currShowString;
+                    yield return new WaitForSeconds(t_Dly);
+                }
+
+                yield return new WaitForSeconds(t_SkippedDly);
+                //yield return new WaitUntil(() => b_txtCut);
+                b_txtCut = false;
+            }
+            b_txtExit = true;
+        }
+
     }
 
     //end current text and show next text function.
@@ -82,10 +107,9 @@ public class TypeWriterEffect : MonoBehaviour
         if (b_txtFull == true) {
             //call next texts typing
 
-            cnt++;
             b_txtFull = false;
             b_txtCut = false;
-            StartCoroutine(ShowText(str_txts));
+            StartCoroutine(typingAction(_textBuffer));
 
         } else {
             //skip typing
@@ -93,86 +117,4 @@ public class TypeWriterEffect : MonoBehaviour
         }
     }
 
-    //call start text
-    public void Get_Typing(int _index, string[] _fullText)
-    {
-        //init for reuse variables.
-        b_txtExit = false;
-        b_txtFull = false;
-        b_txtCut = false;
-        cnt = 0;
-
-        //load text variables.
-        print_count = _index;
-        str_txts = new string[print_count];
-        str_txts = _fullText;
-
-        //start typing coroutine.
-        StartCoroutine(ShowText(str_txts));
-    }
-
-    IEnumerator ShowText(string[] _fullText)
-    {
-        //exit all text typing.
-        if (cnt >= print_count) {
-            b_txtExit = true;
-            StopCoroutine("showText");
-        } else {
-            //existing text clear.
-            str_currtxt = "";
-            //typing start.
-            for (int i = 0; i < _fullText[cnt].Length; i++) {
-                //exit in typing action.
-                if (b_txtCut == true) {
-                    break;
-                }
-                //one charactor print screen at time.
-                str_currtxt = _fullText[cnt].Substring(0, i + 1);
-                this.GetComponent<Text>().text = str_currtxt;
-                yield return new WaitForSeconds(t_Dly);
-            }
-            //if exit then print screen all text.
-            //Debug.Log("Typing 종료");
-            this.GetComponent<Text>().text = _fullText[cnt];
-            yield return new WaitForSeconds(t_SkippedDly);
-
-            //exit after skip delay time;
-            //Debug.Log("Enter 대기");
-            b_txtFull = true;
-        }
-    }
-
-    private void LoadXml()
-    {
-        xmlDoc = new XmlDocument();
-        xmlDoc.Load(_path+"/Text.xml");
-
-        string xmltxt;
-        List<string> xmlList = new List<string> ();
-
-        DialogParser tmpData = new DialogParser();
-
-        XmlNodeList nodes = xmlDoc.SelectNodes("TextGroup/Row");
-        foreach(XmlNode tmp in nodes) {
-            //Debug.Log("index : "+tmp.SelectSingleNode("Text").Value);
-
-            xmltxt = tmp.SelectSingleNode("Text").InnerText;
-            xmltxt = xmltxt.Replace("\\r", "\r");
-            xmltxt = xmltxt.Replace("\\r", "\r");
-            xmltxt = xmltxt.Replace("\\n", "\n");
-
-            xmlList.Add(tmp.Attributes["tag"].Value);
-            xmlList.Add(tmp.Attributes["index"].Value);
-            xmlList.Add(xmltxt);
-
-            tmpData.setDialogData(tmp.Attributes["tag"].Value, tmp.Attributes["index"].Value, xmltxt);
-            xmlDialog.Add(tmpData);
-        }
-
-        for (int i = 0; i < xmlDialog.Count; i++) {
-            Debug.Log("Tag   : " + xmlDialog[i].getTag());
-            Debug.Log("Index : " + xmlDialog[i].getIndex().ToString());
-            Debug.Log("Text  : " + xmlDialog[i].getText());
-        }
-    }
 }
