@@ -9,7 +9,7 @@ using dbManager;
 public class DialogManager : MonoBehaviour
 {
     // Start is called before the first frame update
-    List<DataManager> DialogList = new List<DataManager> ();
+    public List<DataManager> DialogList = new List<DataManager> ();
     XmlManager xmlParser;
 
     EventWaitHandle thd_started = new EventWaitHandle(false, EventResetMode.ManualReset);
@@ -19,17 +19,19 @@ public class DialogManager : MonoBehaviour
 
     public bool isThdStarted = true;
     public bool isThdExited = true;
+
+    public Thread thd;
     
     void Start()
     {
         xmlParser = new XmlManager(Application.dataPath + "/Xml");
         _sceneName = SceneManager.GetActiveScene().name;
-        //new Thread (() => getCurrSceneDialog()).Start();
 
-        Thread thd = new Thread(getCurrSceneDialog);
+        //Debug.Log($"{isThdStarted}, {isThdExited}");
+
+        thd = new Thread(getCurrSceneDialog);
         thd.Start((thd_started, thd_exited));
 
-        Debug.Log($"{isThdStarted}, {isThdExited}");
 
         isThdStarted = thd_started.WaitOne(0);
         isThdExited = thd_exited.WaitOne(0);
@@ -38,7 +40,7 @@ public class DialogManager : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        Debug.Log($" => {isThdStarted}, {isThdExited}");
+        //Debug.Log($" => {isThdStarted}, {isThdExited}");
     }
 
     void getCurrSceneDialog(object obj)
