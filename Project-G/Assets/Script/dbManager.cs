@@ -14,9 +14,12 @@ namespace dbManager
         public XmlReader xmlDocs;
         private string _xmlName;
 
+        private bool _isError;
+
         public XmlManager(string filePath) {
             xmlPath = filePath;
             xmlName = string.Empty;
+            _isError = false;
         }
 
         private string xmlPath {
@@ -27,6 +30,10 @@ namespace dbManager
         public string xmlName {
             get => _xmlName;
             set => _xmlName = value;
+        }
+
+        public bool checkError {
+            get => _isError;
         }
 
         public bool OpenXml() {
@@ -49,6 +56,7 @@ namespace dbManager
 
             if(!OpenXml()) {
                 //error
+                _isError = true;
                 return null;
             }
 
@@ -61,8 +69,7 @@ namespace dbManager
                     xmlDocs.ReadToDescendant("Text");
                     readData.Text = xmlDocs.ReadElementContentAsString();
 
-                    readData.Text = readData.Text.Replace("\\r", "\r");
-                    readData.Text = readData.Text.Replace("\\n", "\n");
+                    readData.Text = readData.Text.Replace("[NEWLINE]", "\r\n");
 
                     if (readData.Tag != sceneName) {
                         break;
@@ -115,40 +122,4 @@ namespace dbManager
             set => _xmlIndex = value;
         }
     }   
-
-    public class DialogParser
-    {
-        private string tag;
-        private int textIndex;
-        private string text;
-
-        public DialogParser()
-        {
-            this.tag = string.Empty;
-            this.textIndex = 0;
-            this.text = string.Empty;
-        }
-
-        public void setDialogData(string tag, string index, string text)
-        {
-            this.tag = tag;
-            this.textIndex = Int32.Parse(index);
-            this.text = text;
-        }
-
-        public string getTag()
-        {
-            return tag;
-        }
-
-        public int getIndex()
-        {
-            return textIndex;
-        }
-
-        public string getText()
-        {
-            return text;
-        }
-    }
 }
