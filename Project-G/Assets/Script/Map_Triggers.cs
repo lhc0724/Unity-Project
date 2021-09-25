@@ -37,7 +37,7 @@ public class Map_Triggers : MonoBehaviour
         GameObject std_cam = GameObject.FindGameObjectWithTag("MainCamera");
         std_cam.SetActive(false);
 
-        start_pos = new Vector3(start_pos.x, start_pos.y + 1f, start_pos.z);
+        start_pos = new Vector3(start_pos.x, start_pos.y, start_pos.z);
         
         //create player character
         Instantiate(Player, start_pos, start_rot);

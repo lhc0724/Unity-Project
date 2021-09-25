@@ -2,11 +2,6 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine.UI;
-using UnityEngine.SceneManagement;
-
-using System.Xml;
-using System.IO;
-using System.Threading;
 
 using dbManager;
 
@@ -22,10 +17,9 @@ public class TypeWriterEffect : MonoBehaviour
 
     /* --- typing check variables --- */
     public bool b_txtExit;
-    public bool b_txtFull;
     public bool b_txtCut;
 
-    private bool _isPrinting;
+    public static bool isPrinting;
 
     DialogManager dialogData;
     
@@ -34,8 +28,9 @@ public class TypeWriterEffect : MonoBehaviour
     void Start()
     {
         //variable init
-        _isPrinting = false;
-        b_txtExit = false;
+        isPrinting  = false;
+        b_txtExit   = false;
+        b_txtCut    = false;
 
         dialogData = GameObject.Find("SysManager").GetComponent<DialogManager>();
     }
@@ -44,14 +39,16 @@ public class TypeWriterEffect : MonoBehaviour
     void Update()
     {
         if(!b_txtExit) {
+            Time.timeScale = 0;
             if (dialogData.isThdExited) {
                 dialogData.thd.Join();
-            } else if (!dialogData.isThdExited && !_isPrinting) {
+            } else if (!dialogData.isThdExited && !isPrinting) {
                 //Get_Typing(print_count, str_txts);
                 print_Text(dialogData.DialogList, 1);
             }
         } else {
             //gameObject.SetActive(false);
+            Time.timeScale = 1.0f;
         }
 
         if(Input.GetKeyDown("space")) {
@@ -62,7 +59,7 @@ public class TypeWriterEffect : MonoBehaviour
 
     public void print_Text(List<DataManager> datas, int textIndex)
     {
-        _isPrinting = true;
+        isPrinting = true;
         foreach (DataManager tmp in datas) {
             if(tmp.Index == textIndex) {
                 _textBuffer.Add(tmp.Text);
@@ -89,14 +86,16 @@ public class TypeWriterEffect : MonoBehaviour
                     }
                     _currShowString = buffer.Substring(0, i + 1);
                     this.GetComponent<Text>().text = _currShowString;
-                    yield return new WaitForSeconds(t_Dly);
+                    //yield return new WaitForSeconds(t_Dly);
+                    yield return new WaitForSecondsRealtime(t_Dly);
                 }
 
-                yield return new WaitForSeconds(t_SkippedDly);
-                //yield return new WaitUntil(() => b_txtCut);
+                //yield return new WaitForSeconds(t_SkippedDly);
+                yield return new WaitForSecondsRealtime(t_SkippedDly);
                 b_txtCut = false;
             }
             b_txtExit = true;
+            isPrinting = false;
         }
 
     }
@@ -104,16 +103,8 @@ public class TypeWriterEffect : MonoBehaviour
     //end current text and show next text function.
     public void End_Typing()
     {
-        if (b_txtFull == true) {
-            //call next texts typing
-
-            b_txtFull = false;
-            b_txtCut = false;
-            StartCoroutine(typingAction(_textBuffer));
-
-        } else {
-            //skip typing
-            b_txtCut = true;
+        if(!b_txtCut) {
+            b_txtCut =  true;
         }
     }
 
