@@ -8,6 +8,7 @@ public class Map_Triggers : MonoBehaviour
     public enum dLog_idx { tutoStart = 1, tutoEnd };
 
     public GameObject Player;
+    private GameObject _UIdialog;
 
     Vector3 start_pos;
     Vector3 end_pos;
@@ -28,6 +29,10 @@ public class Map_Triggers : MonoBehaviour
 
         //end position initialize
         end_pos = GameObject.FindGameObjectWithTag("Stage_End").transform.position;
+
+        //dialog text box disable
+        _UIdialog = GameObject.Find("Canvas_Textbox");
+        _UIdialog.SetActive(false);
 
         StartGame();
     }
@@ -53,8 +58,8 @@ public class Map_Triggers : MonoBehaviour
     }
 
     public void DialogAgent(int index)
-    {
-        
+    {   
+        _UIdialog.SetActive(true);
     }
 
     public void init_obj_position(string tag_name)
@@ -80,6 +85,7 @@ public class Map_Triggers : MonoBehaviour
 
             if (GUI.Button(new Rect((Screen.width / 2) - 30, (Screen.height / 2), 70, 50), "처음으로")) {
                 SceneManager.LoadScene("tutorial_scene_1",LoadSceneMode.Single);
+                stage_end = false;
             }
         }
     }

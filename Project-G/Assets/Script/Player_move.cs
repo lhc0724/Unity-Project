@@ -23,7 +23,7 @@ public class Player_move : MonoBehaviour
 
         renderer = gameObject.GetComponentInChildren<SpriteRenderer>();
         anim = gameObject.GetComponentInChildren<Animator>();
-        mapEvt = gameObject.GetComponent<Map_Triggers>();
+        mapEvt = GameObject.Find("SysManager").GetComponent<Map_Triggers>();
     }
 
     // Update is called once per frame
@@ -37,7 +37,7 @@ public class Player_move : MonoBehaviour
         //Debug.Log(rigid.position);
 
         if(rigid.position.y <= -8.0f) {
-            GameObject.Find("SysManager").GetComponent<Map_Triggers>().init_obj_position("Player");
+            mapEvt.init_obj_position("Player");
         }
 
         move();

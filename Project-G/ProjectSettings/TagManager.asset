@@ -6,6 +6,7 @@ TagManager:
   tags:
   - Start
   - Stage_End
+  - UI_Dialog
   layers:
   - Default
   - TransparentFX

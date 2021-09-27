@@ -43,6 +43,11 @@ public class DialogManager : MonoBehaviour
         //Debug.Log($" => {isThdStarted}, {isThdExited}");
     }
 
+    public void loadSceneDB()
+    {
+
+    }
+
     void getCurrSceneDialog(object obj)
     {
         var events = (System.ValueTuple<EventWaitHandle, EventWaitHandle>) obj;
