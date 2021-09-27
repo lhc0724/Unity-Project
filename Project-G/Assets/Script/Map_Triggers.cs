@@ -5,8 +5,9 @@ using UnityEngine.SceneManagement;
 
 public class Map_Triggers : MonoBehaviour
 {
+    public enum dLog_idx { tutoStart = 1, tutoEnd };
+
     public GameObject Player;
-    //public GameObject Canvas;
 
     Vector3 start_pos;
     Vector3 end_pos;
@@ -45,10 +46,15 @@ public class Map_Triggers : MonoBehaviour
         std_cam.SetActive(true);
     }
 
-    public static void StageEnd() 
+    public void StageEnd() 
     {
         Time.timeScale = 0;
         stage_end = true;
+    }
+
+    public void DialogAgent(int index)
+    {
+        
     }
 
     public void init_obj_position(string tag_name)
@@ -68,17 +74,13 @@ public class Map_Triggers : MonoBehaviour
     void OnGUI()
     {
         if (stage_end) {
-            GUILayout.BeginArea(new Rect((Screen.width/2)-75, Screen.height/2, 150, 200));
+            GUI.Label(
+                new Rect((Screen.width / 2) - 50, (Screen.height / 2), 200, 100)
+                , "스테이지 클리어!");
 
-            GUILayout.Label("스테이지 클리어!");
-
-            if(GUILayout.Button("처음으로")) {
-                SceneManager.LoadScene("testgame", LoadSceneMode.Single);
-                stage_end = false;
+            if (GUI.Button(new Rect((Screen.width / 2) - 30, (Screen.height / 2), 70, 50), "처음으로")) {
+                SceneManager.LoadScene("tutorial_scene_1",LoadSceneMode.Single);
             }
-
-            GUILayout.EndVertical();
-            GUILayout.EndArea();
         }
     }
 }

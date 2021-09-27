@@ -80,7 +80,7 @@ public class TypeWriterEffect : MonoBehaviour
                 _currShowString = "";
 
                 for (int i = 0; i < buffer.Length; i++) {
-                    if (b_txtCut == true) {
+                    if (b_txtCut) {
                         this.GetComponent<Text>().text = buffer;
                         break;
                     }
@@ -90,12 +90,15 @@ public class TypeWriterEffect : MonoBehaviour
                     yield return new WaitForSecondsRealtime(t_Dly);
                 }
 
-                //yield return new WaitForSeconds(t_SkippedDly);
-                yield return new WaitForSecondsRealtime(t_SkippedDly);
-                b_txtCut = false;
+                if(b_txtCut) {
+                    yield return new WaitForSecondsRealtime(0.05f);
+                }else {
+                    yield return new WaitForSecondsRealtime(t_SkippedDly);
+                }
             }
-            b_txtExit = true;
-            isPrinting = false;
+            b_txtCut    = false;
+            isPrinting  = false;
+            b_txtExit   = true;
         }
 
     }
@@ -104,7 +107,7 @@ public class TypeWriterEffect : MonoBehaviour
     public void End_Typing()
     {
         if(!b_txtCut) {
-            b_txtCut =  true;
+            b_txtCut = true;
         }
     }
 

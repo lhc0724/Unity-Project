@@ -11,7 +11,8 @@ public class Player_move : MonoBehaviour
     new SpriteRenderer renderer;
     Animator anim;
 
-    Vector3 movement;
+    Map_Triggers mapEvt;
+
     bool jump = false;
 
     // Start is called before the first frame update
@@ -22,6 +23,7 @@ public class Player_move : MonoBehaviour
 
         renderer = gameObject.GetComponentInChildren<SpriteRenderer>();
         anim = gameObject.GetComponentInChildren<Animator>();
+        mapEvt = gameObject.GetComponent<Map_Triggers>();
     }
 
     // Update is called once per frame
@@ -95,7 +97,11 @@ public class Player_move : MonoBehaviour
         }
 
         if(other.gameObject.tag == "Stage_End") {
-            Map_Triggers.StageEnd();
+            mapEvt.StageEnd();
+        }
+
+        if(other.gameObject.tag == "Start") {
+            mapEvt.DialogAgent(1);
         }
 
     }
