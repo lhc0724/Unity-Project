@@ -9,7 +9,7 @@ using dbManager;
 public class DialogManager : MonoBehaviour
 {
     // Start is called before the first frame update
-    public List<DataManager> DialogList = new List<DataManager> ();
+    public List<DialogDatas> DialogList = new List<DialogDatas> ();
     XmlManager xmlParser;
 
     EventWaitHandle thd_started = new EventWaitHandle(false, EventResetMode.ManualReset);
@@ -55,7 +55,7 @@ public class DialogManager : MonoBehaviour
             events.Item1.Set();
 
             xmlParser.xmlName = "/Text.xml";
-            DialogList = xmlParser.LoadData(_sceneName);
+            //DialogList = xmlParser.LoadData(_sceneName);
 
             events.Item2.Set();
         }

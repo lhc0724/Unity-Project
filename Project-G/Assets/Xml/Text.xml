@@ -10,4 +10,10 @@
     <Row tag="Tutorial_Scene_1" index="1">
         <Text>튜토리얼에 온걸 환영합니다.</Text>
     </Row>
+    <Row tag="Tutorial_Scene_1" index="2">
+        <Text>트리거 작동!</Text>
+    </Row>
+    <Row tag="Tutorial_Scene_2" index="1">
+        <Text>다음 씬 이동</Text>
+    </Row>
 </TextGroup>

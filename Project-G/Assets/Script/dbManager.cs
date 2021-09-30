@@ -7,6 +7,7 @@ using System.Collections.Generic;
 
 namespace dbManager
 {
+    public enum dataType { None = 0, Dialog, Charator, Mob }
 
     public class XmlManager
     {
@@ -49,10 +50,11 @@ namespace dbManager
             xmlDocs = XmlReader.Create(_path + _xmlName);
         }
 
-        public List<DataManager> LoadData(string sceneName) {
+        public DialogDatas LoadDialog() 
+        {
+            DialogDatas readData = new DialogDatas(); 
 
-            List<DataManager> dataList = new List<DataManager>();
-            DataManager readData; 
+            string tmpText;
 
             if(!OpenXml()) {
                 //error
@@ -62,64 +64,106 @@ namespace dbManager
 
             while (xmlDocs.Read()) {
                 if(xmlDocs.IsStartElement("Row")) {
-                    readData = new DataManager();
-                    readData.Tag = xmlDocs.GetAttribute("tag");
-                    readData.Index = Convert.ToInt32(xmlDocs.GetAttribute("index"));
+                    //readData = new DialogDatas();
+                    //readData.Tag = xmlDocs.GetAttribute("tag");
+                    readData.Tag.Add(xmlDocs.GetAttribute("tag"));
+
+                    //readData.Index = Convert.ToInt32(xmlDocs.GetAttribute("index"));
+                    readData.Index.Add(Convert.ToInt32(xmlDocs.GetAttribute("index")));
 
                     xmlDocs.ReadToDescendant("Text");
-                    readData.Text = xmlDocs.ReadElementContentAsString();
+                    tmpText = xmlDocs.ReadElementContentAsString();
 
-                    readData.Text = readData.Text.Replace("[NEWLINE]", "\r\n");
-
-                    if (readData.Tag != sceneName) {
-                        break;
-                    } else {
-                        dataList.Add(readData);
-                    }
+                    readData.Text.Add(tmpText.Replace("[NEWLINE]", "\r\n"));
+                    //readData.Text = readData.Text.Replace("[NEWLINE]", "\r\n");
                 }
             }
 
             xmlDocs.Close();
 
-            return dataList;
+            return readData;
         }
 
-        public List<DataManager> LoadData(string sceneName, string fileName) {
+        public DialogDatas LoadDialog(string fileName) {
             //@overloading function
             this._xmlName = "/" + fileName;
-            return LoadData(sceneName);
+            return LoadDialog();
+        }
+
+        public DialogDatas LoadDialogwithScene(string sceneName)
+        {
+            DialogDatas readData = new DialogDatas();
+            string tmpText;
+
+            if (!OpenXml()) {
+                //error
+                _isError = true;
+                return null;
+            }
+
+            while (xmlDocs.Read()) {
+                if(xmlDocs.IsStartElement("Row")) {
+
+                    tmpText = xmlDocs.GetAttribute("tag");
+
+                    if(tmpText == sceneName) {
+                        readData.Tag.Add(tmpText);
+                        readData.Index.Add(Convert.ToInt32(xmlDocs.GetAttribute("index")));
+
+                        xmlDocs.ReadToDescendant("Text");
+                        tmpText = xmlDocs.ReadElementContentAsString();
+
+                        readData.Text.Add(tmpText.Replace("[NEWLINE]", "\r\n"));
+                    }
+                }
+            }
+            
+            xmlDocs.Close();
+
+            return readData;
+        }
+
+        public DialogDatas LoadDialogwithScene(string sceneName, string fileName) {
+            this._xmlName = "/" + fileName;
+            return LoadDialogwithScene(sceneName);
         }
 
     }
 
-    public class DataManager
+    public class DialogDatas
     {
         //dialog, charactor data, mob data, etc .. management class
-        private string _xmlText;
-        private string _xmlTag;
-        private int _xmlIndex;
-        public enum dbType { Dialog, Charator, Mob }
+        private List<string> _xmlText;
+        private List<string> _xmlTag;
+        private List<int> _xmlIndex;
 
-        public DataManager()
+        private dataType _dbtype;
+
+        public DialogDatas()
         {
-            this._xmlTag = string.Empty;
-            this._xmlIndex = 0;
-            this._xmlText = string.Empty;
+            this._xmlTag = new List<string> ();
+            this._xmlIndex = new List<int> ();
+            this._xmlText = new List<string> ();
+            this._dbtype = dataType.Dialog;
         }
 
-        public string Text {
+        public List<string> Text {
             get => _xmlText;
             set => _xmlText = value;
         }
 
-        public string Tag {
+        public List<string> Tag {
             get => _xmlTag;
-            set => _xmlTag = value;
+            set => _xmlTag = Tag;
         }
 
-        public int Index {
+        public List<int> Index {
             get => _xmlIndex;
             set => _xmlIndex = value;
+        }
+
+        public dataType DBtype {
+            get => _dbtype;
         }
     }   
 }

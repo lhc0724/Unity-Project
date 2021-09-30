@@ -57,13 +57,13 @@ public class TypeWriterEffect : MonoBehaviour
         
     }
 
-    public void print_Text(List<DataManager> datas, int textIndex)
+    public void print_Text(List<DialogDatas> datas, int textIndex)
     {
         isPrinting = true;
-        foreach (DataManager tmp in datas) {
-            if(tmp.Index == textIndex) {
-                _textBuffer.Add(tmp.Text);
-            }
+        foreach (DialogDatas tmp in datas) {
+            // if(tmp.Index == textIndex) {
+            //     _textBuffer.Add(tmp.Text);
+            // }
         }   
 
         //Debug.Log($"{textBuffer[0]}");
