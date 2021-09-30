@@ -872,6 +872,14 @@ PrefabInstance:
       propertyPath: m_TagString
       value: UI_Dialog
       objectReference: {fileID: 0}
+    - target: {fileID: 5242143732028090501, guid: 9f13eee50d8e7034d92e54e53c68fc8e, type: 3}
+      propertyPath: t_Dly
+      value: 0.05
+      objectReference: {fileID: 0}
+    - target: {fileID: 5242143732028090501, guid: 9f13eee50d8e7034d92e54e53c68fc8e, type: 3}
+      propertyPath: t_SkippedDly
+      value: 0.3
+      objectReference: {fileID: 0}
     - target: {fileID: 5242143732332583664, guid: 9f13eee50d8e7034d92e54e53c68fc8e, type: 3}
       propertyPath: m_TagString
       value: UI_Dialog
