@@ -101,7 +101,7 @@ public class Player_move : MonoBehaviour
         }
 
         if(other.gameObject.tag == "Start") {
-            mapEvt.DialogAgent(1);
+            //mapEvt.DialogAgent(1);
         }
 
     }

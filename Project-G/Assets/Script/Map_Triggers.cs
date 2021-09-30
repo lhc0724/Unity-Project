@@ -5,10 +5,7 @@ using UnityEngine.SceneManagement;
 
 public class Map_Triggers : MonoBehaviour
 {
-    public enum dLog_idx { tutoStart = 1, tutoEnd };
-
     public GameObject Player;
-    private GameObject _UIdialog;
 
     Vector3 start_pos;
     Vector3 end_pos;
@@ -18,21 +15,26 @@ public class Map_Triggers : MonoBehaviour
     void Awake()
     {
         Time.timeScale = 0f;   
+
+        //starting position initialize
+        start_pos = gameObject.transform.Find("PointStart").transform.position;
+        start_rot = gameObject.transform.Find("PointStart").transform.rotation;
+
+        //end position initialize
+        end_pos = gameObject.transform.Find("PointEnd").transform.position;
     }
 
     // Update is called once per frame
     void Start()
     {
-        //starting position initialize
-        start_pos = GameObject.FindGameObjectWithTag("Start").transform.position;
-        start_rot = GameObject.FindGameObjectWithTag("Start").transform.rotation;
+        // start_pos = GameObject.FindGameObjectWithTag("Start").transform.position;
+        // start_rot = GameObject.FindGameObjectWithTag("Start").transform.rotation;
 
-        //end position initialize
-        end_pos = GameObject.FindGameObjectWithTag("Stage_End").transform.position;
+        // end_pos = GameObject.FindGameObjectWithTag("Stage_End").transform.position;
 
         //dialog text box disable
-        _UIdialog = GameObject.Find("Canvas_Textbox");
-        _UIdialog.SetActive(false);
+        // _UIdialog = GameObject.Find("Canvas_Textbox");
+        // _UIdialog.SetActive(false);
 
         StartGame();
     }
@@ -57,10 +59,10 @@ public class Map_Triggers : MonoBehaviour
         stage_end = true;
     }
 
-    public void DialogAgent(int index)
-    {   
-        _UIdialog.SetActive(true);
-    }
+    // public void DialogAgent(int index)
+    // {   
+    //     _UIdialog.SetActive(true);
+    // }
 
     public void init_obj_position(string tag_name)
     {
