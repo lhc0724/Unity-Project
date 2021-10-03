@@ -40,12 +40,12 @@ public class TypeWriterEffect : MonoBehaviour
     {
         if(!b_txtExit) {
             Time.timeScale = 0;
-            if (dialogData.isThdExited) {
-                dialogData.thd.Join();
-            } else if (!dialogData.isThdExited && !isPrinting) {
-                //Get_Typing(print_count, str_txts);
-                print_Text(dialogData.DialogList, 1);
-            }
+            // if (dialogData.isThdExited) {
+            //     dialogData.thd.Join();
+            // } else if (!dialogData.isThdExited && !isPrinting) {
+            //     //Get_Typing(print_count, str_txts);
+            //     print_Text(dialogData.DialogList, 1);
+            // }
         } else {
             //gameObject.SetActive(false);
             Time.timeScale = 1.0f;
