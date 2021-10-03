@@ -4,60 +4,90 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
-using dbManager;
-
 public class DialogManager : MonoBehaviour
 {
-    // Start is called before the first frame update
-    public List<DialogDatas> DialogList = new List<DialogDatas> ();
-    XmlManager xmlParser;
+    #region new_version
 
-    EventWaitHandle thd_started = new EventWaitHandle(false, EventResetMode.ManualReset);
     EventWaitHandle thd_exited = new EventWaitHandle(false, EventResetMode.ManualReset);
 
-    private string _sceneName;
+    private string _currScene;
+    private bool _ViewReq = false;
 
-    public bool isThdStarted = true;
-    public bool isThdExited = true;
-
-    public Thread thd;
-    
-    void Start()
+    private void Awake()
     {
-        xmlParser = new XmlManager(Application.dataPath + "/Xml");
-        _sceneName = SceneManager.GetActiveScene().name;
-
-        //Debug.Log($"{isThdStarted}, {isThdExited}");
-
-        thd = new Thread(getCurrSceneDialog);
-        thd.Start((thd_started, thd_exited));
-
-
-        isThdStarted = thd_started.WaitOne(0);
-        isThdExited = thd_exited.WaitOne(0);
+        GameObject.Find("Panel").transform.gameObject.SetActive(false);
     }
 
-    // Update is called once per frame
-    void Update()
+    public void ReqViewDialog(string sceneName)
     {
-        //Debug.Log($" => {isThdStarted}, {isThdExited}");
-    }
+        Thread dialog_thd;
 
-    public void loadSceneDB()
-    {
+        _currScene = sceneName;
+        _ViewReq = true;
 
+        dialog_thd = new Thread(getCurrSceneDialog);
+        dialog_thd.Start((thd_exited));
     }
 
     void getCurrSceneDialog(object obj)
     {
-        var events = (System.ValueTuple<EventWaitHandle, EventWaitHandle>) obj;
-        {
-            events.Item1.Set();
+        GameManager obj_gm = GameManager.instance;
 
-            xmlParser.xmlName = "/Text.xml";
+        var events = (System.ValueTuple<EventWaitHandle>)obj;
+        {
+            obj_gm.dialog_db = obj_gm.xml_mgr.LoadDialogwithScene(_currScene, "Text.xml");
+            //xmlParser.xmlName = "/Text.xml";
             //DialogList = xmlParser.LoadData(_sceneName);
 
-            events.Item2.Set();
+            events.Item1.Set();
         }
     }
+
+    #endregion  //end_newVer.
+    #region old_version
+    // Start is called before the first frame update
+    // public List<DialogDatas> DialogList = new List<DialogDatas> ();
+    // XmlManager xmlParser;
+
+    // EventWaitHandle thd_started = new EventWaitHandle(false, EventResetMode.ManualReset);
+    // EventWaitHandle thd_exited = new EventWaitHandle(false, EventResetMode.ManualReset);
+
+    // private string _sceneName;
+
+    // public bool isThdStarted = true;
+    // public bool isThdExited = true;
+
+    // public Thread thd;
+
+    // void Start()
+    // {
+    // xmlParser = new XmlManager(Application.dataPath + "/Xml");
+    // _sceneName = SceneManager.GetActiveScene().name;
+
+    // //Debug.Log($"{isThdStarted}, {isThdExited}");
+
+    // thd = new Thread(getCurrSceneDialog);
+    // thd.Start((thd_started, thd_exited));
+
+
+    // isThdStarted = thd_started.WaitOne(0);
+    // isThdExited = thd_exited.WaitOne(0);
+    // }
+
+    // Update is called once per frame
+
+    // void getCurrSceneDialog(object obj)
+    // {
+    //     var events = (System.ValueTuple<EventWaitHandle, EventWaitHandle>) obj;
+    //     {
+    //         events.Item1.Set();
+
+    //         xmlParser.xmlName = "/Text.xml";
+    //         //DialogList = xmlParser.LoadData(_sceneName);
+
+    //         events.Item2.Set();
+    //     }
+    // }
+
+    #endregion
 }
