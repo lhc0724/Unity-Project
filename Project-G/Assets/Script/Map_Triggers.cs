@@ -27,16 +27,14 @@ public class Map_Triggers : MonoBehaviour
     // Update is called once per frame
     void Start()
     {
-        // start_pos = GameObject.FindGameObjectWithTag("Start").transform.position;
-        // start_rot = GameObject.FindGameObjectWithTag("Start").transform.rotation;
-
-        // end_pos = GameObject.FindGameObjectWithTag("Stage_End").transform.position;
-
-        //dialog text box disable
-        // _UIdialog = GameObject.Find("Canvas_Textbox");
-        // _UIdialog.SetActive(false);
+        GameObject dlog_mgr = GameObject.Find("Canvas_Textbox");
 
         StartGame();
+
+        if(dlog_mgr != null) {
+            dlog_mgr.GetComponent<DialogManager>().ReqViewDialog(SceneManager.GetActiveScene().name);
+        }
+
     }
 
     void StartGame() {
