@@ -45,6 +45,15 @@ public class GameManager : MonoBehaviour
         }
     }
 
+    private void Start()
+    {
+        //this code is for use scene loading test.
+        //this function will be button's on_click event on the 'Start_Scene' later.
+        if (SceneManager.GetActiveScene().name == "Start_Scene") {
+            SceneManager.LoadScene("Tutorial_Scene_1", LoadSceneMode.Single);
+        }
+    }
+
     #endregion
 
 }
