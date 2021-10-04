@@ -24,6 +24,10 @@ public class Map_Triggers : MonoBehaviour
         end_pos = gameObject.transform.Find("PointEnd").transform.position;
     }
 
+    private void OnEnable() {
+        
+    }
+
     // Update is called once per frame
     void Start()
     {
