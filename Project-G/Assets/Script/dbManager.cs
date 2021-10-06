@@ -3,9 +3,11 @@ using System.Xml;
 using System.IO;
 using System.Collections.Generic;
 
+//using UnityEngine;
+
 namespace dbManager
 {
-    public enum dataType { None = 0, Dialog, Charator, Mob, Skill, Item }
+    public enum dataType { None = 0, Dialog, Charator, Mob }
 
     public class XmlManager
     {
@@ -47,7 +49,8 @@ namespace dbManager
             //this.xmlDocs = new XmlDocument();
             xmlDocs = XmlReader.Create(_path + _xmlName);
         }
-        public DialogDatas LoadDialog()
+
+        public DialogDatas LoadDialog() 
         {
             DialogDatas readData = new DialogDatas(); 
 
@@ -146,7 +149,7 @@ namespace dbManager
 
         public List<string> Text {
             get => _xmlText;
-            set => _xmlText = Text;
+            set => _xmlText = value;
         }
 
         public List<string> Tag {
@@ -156,7 +159,7 @@ namespace dbManager
 
         public List<int> Index {
             get => _xmlIndex;
-            set => _xmlIndex = Index;
+            set => _xmlIndex = value;
         }
 
         public dataType DBtype {
