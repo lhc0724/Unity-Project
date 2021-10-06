@@ -11,8 +11,6 @@ public class GameManager : MonoBehaviour
     public XmlManager xml_mgr;      //Variables that manage xml to be referenced in the game.
     public DialogDatas dialog_db;   //dialog data set, in the currently required dialog ui.
 
-    public bool isLoading = false;
-
     #region Singleton
 
     public static GameManager instance = null;
@@ -52,34 +50,8 @@ public class GameManager : MonoBehaviour
         //this code is for use scene loading test.
         //this function will be button's on_click event on the 'Start_Scene' later.
         if (SceneManager.GetActiveScene().name == "Start_Scene") {
-            //SwapStage("Tutorial_Scene_1");
-            StartCoroutine(SceneLoading("Tutorial_Scene_1"));
+            SceneManager.LoadScene("Tutorial_Scene_1", LoadSceneMode.Single);
         }
-    }
-
-    private IEnumerator SceneLoading(string _sceneName)
-    {
-        string currScene = SceneManager.GetActiveScene().name;
-        
-        AsyncOperation LoadOp = SceneManager.LoadSceneAsync(_sceneName, LoadSceneMode.Additive);
-
-        LoadOp.allowSceneActivation = false;
-
-        while(!LoadOp.isDone) {
-            yield return new WaitForSeconds(0.1f);
-        }
-
-        LoadOp.allowSceneActivation = true;
-        SceneManager.SetActiveScene(SceneManager.GetSceneByName(_sceneName));
-
-        AsyncOperation UnloadOp = SceneManager.UnloadSceneAsync(currScene);
-
-        while(!UnloadOp.isDone) {
-            yield return new WaitForSeconds(0.1f);
-        }
-
-        StopCoroutine("SceneLoading");
-        yield return null;
     }
 
     #endregion
