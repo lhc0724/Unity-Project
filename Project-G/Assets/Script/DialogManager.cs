@@ -11,7 +11,6 @@ public class DialogManager : MonoBehaviour
     EventWaitHandle thd_exited = new EventWaitHandle(false, EventResetMode.ManualReset);
 
     private string _currScene;
-    private bool _ViewReq = false;
 
     private void Awake()
     {
@@ -23,7 +22,6 @@ public class DialogManager : MonoBehaviour
         Thread dialog_thd;
 
         _currScene = sceneName;
-        _ViewReq = true;
 
         dialog_thd = new Thread(getCurrSceneDialog);
         dialog_thd.Start((thd_exited));

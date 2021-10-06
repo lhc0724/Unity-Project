@@ -3,8 +3,6 @@ using System.Xml;
 using System.IO;
 using System.Collections.Generic;
 
-//using UnityEngine;
-
 namespace dbManager
 {
     public enum dataType { None = 0, Dialog, Charator, Mob }
