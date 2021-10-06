@@ -61,7 +61,8 @@ public class GameManager : MonoBehaviour
         AsyncOperation asyncOp = SceneManager.LoadSceneAsync(nextSceneName, LoadSceneMode.Single);
 
         //threading read xml data.
-        Thread xmlThd = new Thread(() => dialog_db = xml_mgr.LoadDialogwithScene(nextSceneName, "Text.xml"));
+        Thread xmlThd = new Thread(() =>
+          dialog_db = xml_mgr.LoadDialogwithScene(nextSceneName, "Text.xml"));
         xmlThd.Start();
 
         asyncOp.allowSceneActivation = false;
