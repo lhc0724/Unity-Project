@@ -9,8 +9,12 @@ using dbManager;
 
 public class GameManager : MonoBehaviour
 {   
+    //System Variables
     public XmlManager xml_mgr;      //Variables that manage xml to be referenced in the game.
     public DialogDatas dialog_db;   //dialog data set, in the currently required dialog ui.
+
+    //Playable Variables
+    public GameObject Player;
 
     #region Singleton
 
@@ -55,7 +59,7 @@ public class GameManager : MonoBehaviour
         }
     }
 
-    private IEnumerator AsyncSceneLoading(string nextSceneName)
+    public IEnumerator AsyncSceneLoading(string nextSceneName)
     {
         AsyncOperation asyncOp = SceneManager.LoadSceneAsync(nextSceneName, LoadSceneMode.Single);
 
@@ -78,6 +82,20 @@ public class GameManager : MonoBehaviour
 
         StopCoroutine("AsyncSceneLoading");
         yield return null;
+    }
+
+    public void NormalSceneLoading(string nextSceneName)
+    {
+        //threading read xml data.
+        Thread xmlThd = new Thread(() =>
+          dialog_db = xml_mgr.LoadDialogwithScene(nextSceneName, "Text.xml"));
+        xmlThd.Start();
+
+        //load next scene
+        SceneManager.LoadScene(nextSceneName, LoadSceneMode.Single);
+
+        //wait thread work finish.
+        xmlThd.Join();
     }
 
     #endregion
