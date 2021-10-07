@@ -14,7 +14,7 @@ GameObject:
   - component: {fileID: 5242143731504058020}
   m_Layer: 5
   m_Name: SkipButton
-  m_TagString: Untagged
+  m_TagString: UI_Dialog
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -121,7 +121,7 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 5242143732028090501}
+      - m_Target: {fileID: 5242143732028090501, guid: 9f13eee50d8e7034d92e54e53c68fc8e, type: 3}
         m_TargetAssemblyTypeName: TypeWriterEffect, Assembly-CSharp
         m_MethodName: End_Typing
         m_Mode: 1
@@ -146,7 +146,7 @@ GameObject:
   - component: {fileID: 5242143732332583630}
   m_Layer: 5
   m_Name: Text
-  m_TagString: Untagged
+  m_TagString: UI_Dialog
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -225,7 +225,7 @@ GameObject:
   - component: {fileID: 5242143732458041944}
   m_Layer: 5
   m_Name: Panel
-  m_TagString: Untagged
+  m_TagString: UI_Dialog
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -300,10 +300,9 @@ GameObject:
   - component: {fileID: 5242143732725960675}
   - component: {fileID: 5242143732725960676}
   - component: {fileID: 5242143730965061422}
-  - component: {fileID: 5242143732028090501}
   m_Layer: 5
   m_Name: Text
-  m_TagString: Untagged
+  m_TagString: UI_Dialog
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -369,22 +368,6 @@ MonoBehaviour:
     m_VerticalOverflow: 0
     m_LineSpacing: 1
   m_Text: 
---- !u!114 &5242143732028090501
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5242143732725960677}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: d322d37c4df95f140b108ccb6b562bad, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  t_Dly: 0.08
-  t_SkippedDly: 0.5
-  b_txtExit: 0
-  b_txtCut: 0
 --- !u!1 &5242143732798757332
 GameObject:
   m_ObjectHideFlags: 0
@@ -397,9 +380,10 @@ GameObject:
   - component: {fileID: 5242143732798757329}
   - component: {fileID: 5242143732798757330}
   - component: {fileID: 5242143732798757331}
+  - component: {fileID: 1329750545}
   m_Layer: 5
   m_Name: Canvas_Textbox
-  m_TagString: Untagged
+  m_TagString: UI_Dialog
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -485,3 +469,15 @@ MonoBehaviour:
   m_BlockingMask:
     serializedVersion: 2
     m_Bits: 4294967295
+--- !u!114 &1329750545
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5242143732798757332}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3a9dcd1a0e9db484fafa3af68e217974, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
