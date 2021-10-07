@@ -51,7 +51,6 @@ public class GameManager : MonoBehaviour
         //this code is for use scene loading test.
         //this function will be button's on_click event on the 'Start_Scene' later.
         if (SceneManager.GetActiveScene().name == "Start_Scene") {
-            //SceneManager.LoadScene("Tutorial_Scene_1", LoadSceneMode.Single);
             StartCoroutine(AsyncSceneLoading("Tutorial_Scene_1"));
         }
     }
