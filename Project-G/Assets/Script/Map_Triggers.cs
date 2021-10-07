@@ -5,12 +5,15 @@ using UnityEngine.SceneManagement;
 
 public class Map_Triggers : MonoBehaviour
 {
-    public GameObject Player;
-
+    //position variables
     Vector3 start_pos;
     Vector3 end_pos;
+
+    //rotation variables
     Quaternion start_rot;
-    static bool stage_end = false;
+
+    //flag variables
+    private bool _isStageEnd = false;
 
     void Awake()
     {
@@ -20,6 +23,8 @@ public class Map_Triggers : MonoBehaviour
         start_pos = gameObject.transform.Find("PointStart").transform.position;
         start_rot = gameObject.transform.Find("PointStart").transform.rotation;
 
+        //start_pos = GameObject.Find("PointStart")
+
         //end position initialize
         end_pos = gameObject.transform.Find("PointEnd").transform.position;
     }
@@ -27,17 +32,11 @@ public class Map_Triggers : MonoBehaviour
     // Update is called once per frame
     void Start()
     {
-        GameObject dlog_mgr = GameObject.Find("Canvas_Textbox");
-
         StartGame();
-
-        if(dlog_mgr != null) {
-            dlog_mgr.GetComponent<DialogManager>().ReqViewDialog(SceneManager.GetActiveScene().name);
-        }
-
     }
 
-    void StartGame() {
+    void StartGame() 
+    {
         Time.timeScale = 1.0f;
 
         GameObject std_cam = GameObject.FindGameObjectWithTag("MainCamera");
@@ -46,7 +45,7 @@ public class Map_Triggers : MonoBehaviour
         start_pos = new Vector3(start_pos.x, start_pos.y, start_pos.z);
         
         //create player character
-        Instantiate(Player, start_pos, start_rot);
+        Instantiate(GameManager.instance.Player, start_pos, start_rot);
 
         std_cam.SetActive(true);
     }
@@ -54,13 +53,8 @@ public class Map_Triggers : MonoBehaviour
     public void StageEnd() 
     {
         Time.timeScale = 0;
-        stage_end = true;
+        _isStageEnd = true;
     }
-
-    // public void DialogAgent(int index)
-    // {   
-    //     _UIdialog.SetActive(true);
-    // }
 
     public void init_obj_position(string tag_name)
     {
@@ -78,14 +72,15 @@ public class Map_Triggers : MonoBehaviour
 
     void OnGUI()
     {
-        if (stage_end) {
+        if (_isStageEnd) {
             GUI.Label(
                 new Rect((Screen.width / 2) - 50, (Screen.height / 2), 200, 100)
                 , "스테이지 클리어!");
 
             if (GUI.Button(new Rect((Screen.width / 2) - 30, (Screen.height / 2), 70, 50), "처음으로")) {
-                SceneManager.LoadScene("tutorial_scene_1",LoadSceneMode.Single);
-                stage_end = false;
+                //SceneManager.LoadScene("tutorial_scene_1",LoadSceneMode.Single);
+                GameManager.instance.NormalSceneLoading("Tutorial_Scene_1");
+                _isStageEnd = false;
             }
         }
     }
