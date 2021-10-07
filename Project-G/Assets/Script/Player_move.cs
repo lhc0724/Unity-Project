@@ -12,18 +12,18 @@ public class Player_move : MonoBehaviour
     Animator anim;
 
     Map_Triggers mapEvt;
-
-    bool jump = false;
+    DialogManager dialogEvt;
 
     // Start is called before the first frame update
     void Start()
     {
         rigid = gameObject.GetComponent<Rigidbody2D> ();
-        //rigid.position = Vector2.zero;
 
         renderer = gameObject.GetComponentInChildren<SpriteRenderer>();
         anim = gameObject.GetComponentInChildren<Animator>();
-        mapEvt = GameObject.Find("SysManager").GetComponent<Map_Triggers>();
+
+        mapEvt = GameObject.Find("Map").GetComponent<Map_Triggers>();
+        dialogEvt = GameObject.Find("Canvas_Textbox").GetComponent<DialogManager>();
     }
 
     // Update is called once per frame
@@ -31,55 +31,49 @@ public class Player_move : MonoBehaviour
     {
         if (Input.GetKeyDown(KeyCode.C) && !anim.GetBool("jump")) {
             anim.SetTrigger("do_jump");
-            jump = true;
+            Jump();
         }
 
-        //Debug.Log(rigid.position);
+        Move();
 
         if(rigid.position.y <= -8.0f) {
             mapEvt.init_obj_position("Player");
         }
-
-        move();
-        Jump();
     }
 
     void FixedUpdate()
     {
     }
 
-    void move() {
+    void Move() {
         Vector3 moveVelocity = Vector3.zero;
-        float f_movechk = Input.GetAxisRaw("Horizontal");
+        float f_direction = Input.GetAxisRaw("Horizontal");
 
-        if(f_movechk < 0)  {
-            moveVelocity = Vector3.left;
-            renderer.flipX = true; //left filp
-        } else if (f_movechk > 0) {
-            moveVelocity = Vector3.right;
-            renderer.flipX = false; //right filp
-        }
+        //Debug.Log(f_direction);
+        
+        if(f_direction != 0) {
+            moveVelocity = new Vector3(f_direction, 0, 0);
 
-        if (f_movechk != 0) {
+            if(f_direction > 0) {
+                renderer.flipX = false;
+            }else {
+                renderer.flipX = true;
+            }
+
             anim.SetInteger("move", 1);
-        }else {
+            transform.position += moveVelocity * movePower * Time.deltaTime;
+        } else {
             anim.SetInteger("move", 0);
         }
-        transform.position += moveVelocity * movePower * Time.deltaTime;
     }
 
     void Jump()
     {
-        if(!jump) {
-            return ;
-        }
-
         rigid.velocity = Vector2.zero;
 
         Vector2 jumpVelocity = new Vector2 (0, jumpPower);
         rigid.AddForce (jumpVelocity, ForceMode2D.Impulse);
 
-        jump = false;
     }
 
     void OnTriggerEnter2D(Collider2D other)
@@ -101,7 +95,13 @@ public class Player_move : MonoBehaviour
         }
 
         if(other.gameObject.tag == "Start") {
-            //mapEvt.DialogAgent(1);
+            dialogEvt.ReqViewDialog();
+            Destroy(GameObject.Find("Map").transform.Find("PointStart").gameObject);
+        }
+
+        if(other.gameObject.name == "Trigger_1") {
+            dialogEvt.ReqViewDialog();
+            Destroy(GameObject.Find("Map").transform.Find("Trigger_1").gameObject);
         }
 
     }
